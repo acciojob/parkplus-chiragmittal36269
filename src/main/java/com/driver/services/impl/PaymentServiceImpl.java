@@ -52,8 +52,8 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new Exception("Payment mode not detected");
             }
         } catch (Exception e) {
-            payment.setPaymentCompleted(false);
-            paymentRepository2.save(payment);
+//            payment.setPaymentCompleted(false);
+//            paymentRepository2.save(payment);
             throw new Exception(e.getMessage());
         }
 
