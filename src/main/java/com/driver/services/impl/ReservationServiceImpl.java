@@ -33,9 +33,9 @@ public class ReservationServiceImpl implements ReservationService {
         Spot spot = null;
 
         String wheeler;
-        if (numberOfWheels <= 2) {
+        if (numberOfWheels < 2) {
             wheeler = "TWO_WHEELER";
-        } else if (numberOfWheels <= 4) {
+        } else if (numberOfWheels < 4) {
             wheeler = "FOUR_WHEELER";
         } else {
             wheeler = "OTHERS";
