@@ -22,6 +22,15 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     ParkingLotRepository parkingLotRepository3;
 
+    private int getWheelerType(SpotType spotType){
+        if(spotType.equals(SpotType.TWO_WHEELER)){
+            return 2;
+        } else if (spotType.equals(SpotType.FOUR_WHEELER)) {
+            return 4;
+        }
+        return Integer.MAX_VALUE;
+    }
+
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
         //Reserve a spot in the given parkingLot such that the total price is minimum. Note that the price per hour for each spot is different
@@ -32,14 +41,14 @@ public class ReservationServiceImpl implements ReservationService {
         ParkingLot parkingLot;
         Spot spot = null;
 
-        String wheeler;
-        if (numberOfWheels <= 2) {
-            wheeler = "TWO_WHEELER";
-        } else if (numberOfWheels <= 4) {
-            wheeler = "FOUR_WHEELER";
-        } else {
-            wheeler = "OTHERS";
-        }
+//        String wheeler;
+//        if (numberOfWheels <= 2) {
+//            wheeler = "TWO_WHEELER";
+//        } else if (numberOfWheels <= 4) {
+//            wheeler = "FOUR_WHEELER";
+//        } else {
+//            wheeler = "OTHERS";
+//        }
 
         int totalCost = Integer.MAX_VALUE;
         boolean marker = true;
@@ -48,7 +57,8 @@ public class ReservationServiceImpl implements ReservationService {
             user = userRepository3.findById(userId).get();
             parkingLot = parkingLotRepository3.findById(parkingLotId).get();
             for (Spot s : parkingLot.getSpotList()) {
-                if (!s.getOccupied() && s.getPricePerHour() < totalCost && s.getSpotType().equals(SpotType.valueOf(wheeler))) {
+                int wheels = getWheelerType(s.getSpotType());
+                if (!s.getOccupied() && s.getPricePerHour() < totalCost && wheels >= numberOfWheels) {
                     totalCost = s.getPricePerHour();
                     spot = s;
                     marker = false;
