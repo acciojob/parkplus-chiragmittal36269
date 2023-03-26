@@ -41,14 +41,15 @@ public class ReservationServiceImpl implements ReservationService {
         ParkingLot parkingLot;
         Spot spot = null;
 
-//        String wheeler;
-//        if (numberOfWheels <= 2) {
-//            wheeler = "TWO_WHEELER";
-//        } else if (numberOfWheels <= 4) {
-//            wheeler = "FOUR_WHEELER";
-//        } else {
-//            wheeler = "OTHERS";
-//        }
+        String wheeler;
+        if (numberOfWheels == 2) {
+            wheeler = "TWO_WHEELER";
+        } else if (numberOfWheels == 4) {
+            wheeler = "FOUR_WHEELER";
+        } else {
+            wheeler = "OTHERS";
+        }
+//        wheels >= numberOfWheels
 
         int totalCost = Integer.MAX_VALUE;
         boolean marker = true;
@@ -58,7 +59,7 @@ public class ReservationServiceImpl implements ReservationService {
             parkingLot = parkingLotRepository3.findById(parkingLotId).get();
             for (Spot s : parkingLot.getSpotList()) {
                 int wheels = getWheelerType(s.getSpotType());
-                if (!s.getOccupied() && s.getPricePerHour() < totalCost && wheels >= numberOfWheels) {
+                if (!s.getOccupied() && s.getPricePerHour() < totalCost && s.getSpotType().equals(SpotType.valueOf(wheeler))) {
                     totalCost = s.getPricePerHour();
                     spot = s;
                     marker = false;
