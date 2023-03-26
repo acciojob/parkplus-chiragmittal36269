@@ -48,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
             user = userRepository3.findById(userId).get();
             parkingLot = parkingLotRepository3.findById(parkingLotId).get();
             for (Spot s : parkingLot.getSpotList()) {
-                if (!s.getOccupied() && s.getPricePerHour() < totalCost && String.valueOf(s.getSpotType()).equals(wheeler)) {
+                if (!s.getOccupied() && s.getPricePerHour() < totalCost && s.getSpotType().equals(SpotType.valueOf(wheeler))) {
                     totalCost = s.getPricePerHour();
                     spot = s;
                     marker = false;
@@ -73,7 +73,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         parkingLot.getSpotList().add(spot);
 
-        reservationRepository3.save(reservation);
+        userRepository3.save(user);
+        spotRepository3.save(spot);
+
 
         return reservation;
     }
