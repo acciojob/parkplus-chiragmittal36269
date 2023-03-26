@@ -42,7 +42,6 @@ public class PaymentServiceImpl implements PaymentService {
                 break;
         }
 
-        Payment payment = new Payment();
 
         try {
             if (totalCost > amountSent) {
@@ -52,13 +51,11 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new Exception("Payment mode not detected");
             }
         } catch (Exception e) {
-//            payment.setPaymentCompleted(false);
-//            paymentRepository2.save(payment);
             throw new Exception(e.getMessage());
         }
 
 
-//        Payment payment = new Payment();
+        Payment payment = new Payment();
         payment.setPaymentMode(PaymentMode.valueOf(mode));
         payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
